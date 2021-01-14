@@ -8,7 +8,7 @@ from django.urls import get_resolver
 from django.utils import timezone
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from smtplib import SMTP
+from smtplib import SMTP, SMTP_SSL
 from threading import Thread
 
 from .errors import InvalidUserModel, EmailTemplateNotFound, NotAllFieldCompiled
@@ -34,6 +34,7 @@ def sendConfirm(user, **kwargs):
 
 def sendConfirm_thread(email, token):
     email_server = validateAndGetField('EMAIL_SERVER')
+    use_ssl = validateAndGetField('EMAIL_USE_SSL', raise_error=False, default_type=bool) or False
     sender = validateAndGetField('EMAIL_FROM_ADDRESS')
     domain = validateAndGetField('EMAIL_PAGE_DOMAIN')
     subject = validateAndGetField('EMAIL_MAIL_SUBJECT')
@@ -78,9 +79,12 @@ def sendConfirm_thread(email, token):
 
     if not msg.get_payload():
         raise EmailTemplateNotFound('No email template found')
-
-    server = SMTP(email_server, port)
-    server.starttls()
+    
+    if use_ssl:
+        server = SMTP_SSL(email_server, port)
+    else:
+        server = SMTP(email_server, port)
+        server.starttls()
     server.login(address, password)
     server.sendmail(sender, email, msg.as_string())
     server.quit()

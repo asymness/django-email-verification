@@ -33,6 +33,7 @@ You have to add these parameters to the settings, you have to include all of the
 EMAIL_ACTIVE_FIELD = 'is_active'
 EMAIL_SERVER = 'smtp.gmail.com'
 EMAIL_PORT = 587
+EMAIL_USE_SSL = False
 EMAIL_ADDRESS = 'mymail@gmail.com'
 EMAIL_FROM_ADDRESS = 'noreply@aliasaddress.com'
 EMAIL_PASSWORD = 'mYC00lP4ssw0rd' # os.environ['password_key'] suggested
@@ -46,6 +47,7 @@ In detail:
 + `EMAIL_ACTIVE_FIELD`: the user model field which will be set to `True` once the email is confirmed
 + `EMAIL_SERVER`: your mail provider's server (e.g. `'smtp.gmail.com'` for gmail)
 + `EMAIL_PORT`: your mail provider's server port (e.g. `587` for gmail)
++ `EMAIL_USE_SSL`: Set to `True` if you want to use SSL. (optional)
 + `EMAIL_ADDRESS`: your email address
 + `EMAIL_FROM_ADDRESS`: this can be the same as email_address or an alias address if required.
 + `EMAIL_PASSWORD`: your email address' password
