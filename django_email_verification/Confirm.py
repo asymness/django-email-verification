@@ -26,8 +26,9 @@ def sendConfirm(user, **kwargs):
             token = default_token_generator.make_token(user)
 
         email = urlsafe_b64encode(str(user.email).encode('utf-8'))
-        t = Thread(target=sendConfirm_thread, args=(user.email, f'{email.decode("utf-8")}/{token}'))
-        t.start()
+        # t = Thread(target=sendConfirm_thread, args=(user.email, f'{email.decode("utf-8")}/{token}'))
+        # t.start()
+        sendConfirm_thread(user.email, f'{email.decode("utf-8")}/{token}')
     except AttributeError:
         raise InvalidUserModel('The user model you provided is invalid')
 
